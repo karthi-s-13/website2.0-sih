@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useARIA } from "../../components/ARIAContext";
 import {
   ApiRequestError,
   ProjectSummary,
@@ -93,12 +94,17 @@ export default function ProjectDetailsPage() {
 
   const [reportCard, setReportCard] = useState<ReportCardState>({ status: "idle" });
 
+  const { setProjectContext, clearProjectContext } = useARIA();
+
   // ── Load project & health ──────────────────────────────────────────────────
   useEffect(() => {
     if (!projectId) return;
 
     getProjectDetail(projectId)
-      .then((data) => setProject(data))
+      .then((data) => {
+        setProject(data);
+        setProjectContext(data.project_id, data.project_name);
+      })
       .catch((err) => {
         setLoadError(err instanceof ApiRequestError ? err.message : "Failed to load project details.");
       });
@@ -111,7 +117,9 @@ export default function ProjectDetailsPage() {
           message: err instanceof ApiRequestError ? err.message : "Failed to load health data.",
         });
       });
-  }, [projectId]);
+
+    return () => clearProjectContext();
+  }, [projectId, setProjectContext, clearProjectContext]);
 
   // ── Load cached report from localStorage ─────────────────────────────────
   useEffect(() => {
