@@ -46,6 +46,7 @@ import {
 } from "../shared";
 
 import { AIReportCard, AIReportData } from "./AIReportCard";
+import ProjectARIAChat from "./ProjectARIAChat";
 
 type HealthState =
   | { status: "loading" }
@@ -81,7 +82,7 @@ export default function ProjectDetailsPage() {
   const [health, setHealth] = useState<HealthState>({ status: "loading" });
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  const [activeTab, setActiveTab] = useState<PanelTab | "overview" | "report-card">("overview");
+  const [activeTab, setActiveTab] = useState<PanelTab | "overview" | "report-card" | "aria-copilot">("overview");
 
   const [prediction, setPrediction] = useState<PredictionState>({ status: "idle" });
   const [history, setHistory] = useState<HistoryState>({ status: "idle" });
@@ -199,7 +200,7 @@ export default function ProjectDetailsPage() {
     }
   }
 
-  function handleTabChange(tab: PanelTab | "overview" | "report-card") {
+  function handleTabChange(tab: PanelTab | "overview" | "report-card" | "aria-copilot") {
     setActiveTab(tab);
     if (tab === "history" && history.status === "idle") askHistory();
     if (tab === "review" && review.status === "idle") askReview();
@@ -346,29 +347,42 @@ export default function ProjectDetailsPage() {
             </div>
           )}
 
-          {/* AI Report Card Button */}
-          <button
-            onClick={generateReportCard}
-            disabled={isGenerating}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm transition-all ${
-              isGenerating
-                ? "cursor-not-allowed bg-slate-200 text-slate-400"
-                : hasReport
-                ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-700 hover:to-indigo-700 shadow-violet-200"
-                : "bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-700 hover:to-indigo-700 shadow-violet-200"
-            }`}
-          >
-            {isGenerating ? (
-              <>
-                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
-                Generating Report...
-              </>
-            ) : hasReport ? (
-              <>✨ Regenerate AI Report Card</>
-            ) : (
-              <>✨ Generate AI Report Card</>
-            )}
-          </button>
+          <div className="flex items-center gap-2 flex-wrap justify-end">
+            {/* ARIA AI Copilot Quick Jump Button */}
+            <button
+              onClick={() => handleTabChange("aria-copilot")}
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all border ${
+                activeTab === "aria-copilot"
+                  ? "bg-slate-900 text-white border-slate-900 shadow-sm ring-2 ring-violet-500/20"
+                  : "bg-white text-slate-800 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
+              }`}
+            >
+              <span className="text-violet-600">✨</span>
+              <span>ARIA AI Copilot</span>
+            </button>
+
+            {/* AI Report Card Button */}
+            <button
+              onClick={generateReportCard}
+              disabled={isGenerating}
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm transition-all ${
+                isGenerating
+                  ? "cursor-not-allowed bg-slate-200 text-slate-400"
+                  : "bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-700 hover:to-indigo-700 shadow-violet-200"
+              }`}
+            >
+              {isGenerating ? (
+                <>
+                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
+                  Generating Report...
+                </>
+              ) : hasReport ? (
+                <>✨ Regenerate AI Report Card</>
+              ) : (
+                <>✨ Generate AI Report Card</>
+              )}
+            </button>
+          </div>
 
           {hasReport && reportCard.status === "ready" && (
             <button
@@ -383,18 +397,36 @@ export default function ProjectDetailsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* ── Left Sidebar ── */}
-        <div className="lg:col-span-1 space-y-1">
+        <div className="lg:col-span-1 space-y-2">
+          {/* ARIA AI Copilot Tab (Claude / ChatGPT / Gemini style) */}
+          <button
+            onClick={() => handleTabChange("aria-copilot")}
+            className={`w-full text-left px-4 py-3 text-sm font-semibold rounded-xl flex items-center gap-2.5 transition-all ${
+              activeTab === "aria-copilot"
+                ? "bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-700 text-white shadow-md shadow-violet-500/25 ring-2 ring-violet-400/30"
+                : "bg-gradient-to-r from-violet-50 to-indigo-50/50 text-violet-900 border border-violet-200 hover:bg-violet-100/70"
+            }`}
+          >
+            <span className="flex items-center justify-center w-5 h-5 rounded-lg bg-white/20 text-xs">✨</span>
+            <span>ARIA AI Copilot</span>
+            <span className={`ml-auto text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded ${
+              activeTab === "aria-copilot" ? "bg-white/20 text-white" : "bg-violet-200/70 text-violet-800"
+            }`}>
+              AI
+            </span>
+          </button>
+
           {/* Report Card tab (highlighted) */}
           {(isGenerating || hasReport) && (
             <button
               onClick={() => setActiveTab("report-card")}
-              className={`w-full text-left px-4 py-2.5 text-sm font-semibold rounded-md flex items-center gap-2 ${
+              className={`w-full text-left px-4 py-2.5 text-sm font-semibold rounded-xl flex items-center gap-2 ${
                 activeTab === "report-card"
                   ? "bg-violet-700 text-white"
                   : "bg-violet-50 text-violet-700 border border-violet-200 hover:bg-violet-100"
               }`}
             >
-              <span>✨</span> AI Report Card
+              <span>📑</span> AI Report Card
               {hasReport && <span className="ml-auto text-xs opacity-70">Saved</span>}
               {isGenerating && (
                 <span className="ml-auto inline-block h-3 w-3 animate-spin rounded-full border-2 border-violet-300 border-t-transparent" />
@@ -402,7 +434,7 @@ export default function ProjectDetailsPage() {
             </button>
           )}
 
-          <div className="pt-1 space-y-0.5">
+          <div className="pt-1 space-y-0.5 border-t border-slate-200">
             {(
               [
                 ["overview", "Overview"],
@@ -416,7 +448,7 @@ export default function ProjectDetailsPage() {
               <button
                 key={tab}
                 onClick={() => handleTabChange(tab)}
-                className={`w-full text-left px-4 py-2 text-sm font-medium rounded-md ${
+                className={`w-full text-left px-4 py-2 text-sm font-medium rounded-lg ${
                   activeTab === tab
                     ? "bg-slate-900 text-white"
                     : "text-slate-700 hover:bg-slate-100"
@@ -564,11 +596,41 @@ export default function ProjectDetailsPage() {
                   </div>
                 )}
               </div>
+              {/* ARIA AI Copilot Quick Prompt Banner */}
+              <div className="rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-500/10 via-indigo-500/5 to-purple-500/10 p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white flex items-center justify-center text-lg shadow-md shadow-violet-500/20 shrink-0">
+                    ✨
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">Ask ARIA AI Copilot</h4>
+                    <p className="text-xs text-slate-600 mt-0.5">
+                      Get instant multi-agent risk synthesis, CAG audit evidence, and timeline predictions.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveTab("aria-copilot")}
+                  className="px-4 py-2 bg-violet-700 hover:bg-violet-800 text-white text-xs font-semibold rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1.5"
+                >
+                  <span>Open ARIA AI Studio</span>
+                  <span>→</span>
+                </button>
+              </div>
             </div>
           )}
 
+          {/* ── ARIA AI Copilot Section (Claude / ChatGPT / Gemini UX) ── */}
+          {activeTab === "aria-copilot" && (
+            <ProjectARIAChat
+              project={project}
+              healthData={health.status === "ready" ? health.data : null}
+              onNavigateTab={(tab) => handleTabChange(tab as any)}
+            />
+          )}
+
           {/* ── AI Agent Panels ── */}
-          {activeTab !== "overview" && activeTab !== "report-card" && (
+          {activeTab !== "overview" && activeTab !== "report-card" && activeTab !== "aria-copilot" && (
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <h3 className="text-lg font-semibold text-slate-900 mb-4 capitalize">
                 {(activeTab as string).replace("-", " ")}
