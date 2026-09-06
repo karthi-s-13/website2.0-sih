@@ -1,0 +1,154 @@
+{
+  "report_generated_at": "2026-09-04T09:03:42.849413+00:00",
+  "report_version": "phase-5-v1",
+  "project_id": "617184",
+  "project_name": "Transmission Scheme for integration of Davanagere/ Chitradurga and Bellary REZ in Karnataka [POWERGRID Chitradurga Bellary REZ Transmission Limited]",
+  "project_number": 4,
+  "agency": "Power Grid Corporation of India Limited [POWERGRID]",
+  "state": "Karnataka",
+  "original_cost_crore": 3453.0,
+  "revised_cost_crore": 3453.0,
+  "cumulative_expenditure_crore": 552.48,
+  "as_of_date": "2026-07-01",
+  "overall_health": "ELEVATED",
+  "cost_utilisation": 16.0,
+  "schedule_utilisation": 53.333333333333336,
+  "physical_progress": 23.01,
+  "expected_progress": 53.333333333333336,
+  "progress_gap": -30.323333333333334,
+  "expenditure_progress_divergence": -7.010000000000002,
+  "recent_trend_label": "IMPROVING",
+  "monthly_progress_change": 1.7000000000000028,
+  "progress_slope": 3.2000000000000006,
+  "consecutive_stagnant_months": 0,
+  "ml_probability": 0.019901294307371385,
+  "ml_risk_level": "LOW",
+  "ml_model_version": "cost-overrun-lightgbm-2026-08-30T16:59:28",
+  "ml_feature_version": "ml-fe-v1-reconstructed",
+  "ml_leakage_check": "PASSED",
+  "revised_cost_interpretation": "No revised cost is currently recorded as of the selected observation date. The ML probability is a forward-looking risk estimate, not a confirmed outcome.",
+  "data_quality": {
+    "total_issues": 0,
+    "issues_by_severity": {},
+    "issues": []
+  },
+  "historical_trend": {
+    "observation_count": 17,
+    "first_observation": "2025-03-01",
+    "latest_observation": "2026-07-01",
+    "observations": [
+      {
+        "month": "2025-03-01",
+        "cumulative_expenditure_crore": 0.0,
+        "physical_progress_percent": 0.0,
+        "notes": "Historical zero-progress baseline"
+      },
+      {
+        "month": "2025-04-01",
+        "cumulative_expenditure_crore": 0.0,
+        "physical_progress_percent": 0.0,
+        "notes": "Historical zero-progress baseline"
+      },
+      {
+        "month": "2025-05-01",
+        "cumulative_expenditure_crore": 0.0,
+        "physical_progress_percent": 0.0,
+        "notes": "Historical zero-progress baseline"
+      },
+      {
+        "month": "2025-06-01",
+        "cumulative_expenditure_crore": 0.0,
+        "physical_progress_percent": 0.0,
+        "notes": "Historical zero-progress baseline"
+      },
+      {
+        "month": "2025-07-01",
+        "cumulative_expenditure_crore": 20.7,
+        "physical_progress_percent": 0.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-08-01",
+        "cumulative_expenditure_crore": 33.14,
+        "physical_progress_percent": 0.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-09-01",
+        "cumulative_expenditure_crore": 47.99,
+        "physical_progress_percent": 0.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-10-01",
+        "cumulative_expenditure_crore": 52.48,
+        "physical_progress_percent": 1.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-11-01",
+        "cumulative_expenditure_crore": 62.15,
+        "physical_progress_percent": 1.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-12-01",
+        "cumulative_expenditure_crore": 69.06,
+        "physical_progress_percent": 3.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-01-01",
+        "cumulative_expenditure_crore": 75.96,
+        "physical_progress_percent": 6.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-02-01",
+        "cumulative_expenditure_crore": 276.24,
+        "physical_progress_percent": 9.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-03-01",
+        "cumulative_expenditure_crore": 345.3,
+        "physical_progress_percent": 11.53,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-04-01",
+        "cumulative_expenditure_crore": 414.36,
+        "physical_progress_percent": 13.41,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-05-01",
+        "cumulative_expenditure_crore": 483.42,
+        "physical_progress_percent": 17.99,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-06-01",
+        "cumulative_expenditure_crore": 483.42,
+        "physical_progress_percent": 21.31,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-07-01",
+        "cumulative_expenditure_crore": 552.48,
+        "physical_progress_percent": 23.01,
+        "notes": "Supplied observation"
+      }
+    ],
+    "events": [
+      {
+        "month": "2025-03-01",
+        "type": "PROJECT_FIRST_OBSERVED",
+        "description": "Project first appears in Flash Report data (2025-03).",
+        "previous_value": null,
+        "new_value": "2025-03"
+      }
+    ]
+  },
+  "prediction_timestamp": "2026-09-04T09:03:42.849413+00:00"
+}

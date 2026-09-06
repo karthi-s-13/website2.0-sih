@@ -1,0 +1,242 @@
+@import "leaflet/dist/leaflet.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{--navy:#082b4c;--ink:#14283b;--line:#d9e1e7;--paper:#f6f8fa}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}a{color:inherit}button,input,textarea,select{font:inherit}:focus-visible{outline:3px solid #f4a21b;outline-offset:3px}.site-container{width:min(1180px,calc(100% - 40px));margin:0 auto}.skip-link{position:fixed;left:16px;top:-60px;z-index:50;padding:10px 14px;background:#fff;color:var(--navy);font-weight:700;transition:top .15s}.skip-link:focus{top:16px}.gov-strip{background:#071d32;color:#dce7ef;font-size:12px}.gov-strip-inner,.brand-row,.nav-inner,.footer-inner{display:flex;align-items:center;justify-content:space-between}.gov-strip-inner{min-height:32px}.gov-tools{display:flex;gap:10px;align-items:center}.gov-tools button{padding:0;border:0;background:transparent;color:inherit;cursor:pointer}.site-header{background:#fff;box-shadow:0 1px 0 rgba(8,43,76,.12)}.brand-row{min-height:86px;gap:20px}.brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--navy)}.brand strong{display:block;letter-spacing:.13em;font-size:21px;line-height:1}.brand small{display:block;max-width:460px;margin-top:5px;color:#536575;font-size:10px;line-height:1.2;letter-spacing:.035em}.emblem{display:flex;align-items:flex-end;justify-content:center;gap:2px;width:43px;height:48px;padding:7px 8px 6px;border-radius:21px 21px 8px 8px;background:linear-gradient(145deg,#dc8b25,#f4c14e);box-shadow:inset 0 0 0 2px rgba(8,43,76,.25)}.emblem span{width:6px;background:var(--navy);border-radius:5px 5px 1px 1px}.emblem span:nth-child(1){height:17px}.emblem span:nth-child(2){height:28px}.emblem span:nth-child(3){height:22px}.ministry-mark{border-left:1px solid var(--line);padding-left:20px;color:#5a6873;font-size:10px;line-height:1.45;letter-spacing:.08em;text-align:right}.ministry-mark b{color:var(--navy);font-size:12px;letter-spacing:.02em}.primary-nav{background:var(--navy);color:#fff}.nav-inner{min-height:48px;gap:0}.nav-inner a{padding:15px 17px;font-size:13px;font-weight:600;text-decoration:none;color:#dce7ef;border-left:1px solid rgba(255,255,255,.1)}.nav-inner a:hover{background:rgba(255,255,255,.1);color:#fff}.nav-inner .nav-cta{padding-right:0;color:#ffcf6c;border:0}.nav-spacer{flex:1}.site-footer{background:#071d32;color:#b9c8d3;font-size:12px}.footer-inner{min-height:66px;gap:24px}
+.hero{overflow:hidden;background:linear-gradient(115deg,#062742 0%,#0a416b 62%,#0a5b82 100%);color:#fff}.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:80px;align-items:center;min-height:510px}.hero-copy{padding:70px 0}.eyebrow{display:flex;align-items:center;gap:9px;margin:0 0 20px;color:#cfe5f2;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}.eyebrow span{display:inline-block;width:24px;height:2px;background:#eaa02a}.hero h1,.section-heading h2,.journey h2{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:clamp(40px,5vw,66px);font-weight:400;line-height:1.03;letter-spacing:-.035em}.hero h1 em{color:#f6c66e;font-style:normal}.hero-text{max-width:580px;margin:24px 0 30px;color:#d3e0e9;font-size:17px;line-height:1.65}.hero-actions{display:flex;flex-wrap:wrap;gap:12px}.button{display:inline-flex;align-items:center;gap:15px;min-height:46px;padding:12px 18px;font-size:13px;font-weight:700;text-decoration:none}.button-primary{background:#e99a27;color:#102d46}.button-primary:hover{background:#f4b346}.button-secondary{border:1px solid rgba(255,255,255,.5);color:#fff}.button-secondary:hover{background:rgba(255,255,255,.1)}.service-status{display:flex;align-items:center;gap:8px;margin-top:30px;color:#dce8ef;font-size:12px}.service-status i{width:8px;height:8px;border-radius:50%;background:#f0a62a}.service-status.online i{background:#55c4a2}.service-status.offline i{background:#ef7676}.service-status small{margin-left:5px;color:#abc1cf}.hero-panel{position:relative;padding:22px 24px 24px;border:1px solid rgba(220,240,249,.22);background:rgba(4,31,53,.32);box-shadow:20px 22px 0 rgba(0,21,38,.12)}.panel-top{display:flex;justify-content:space-between;color:#c9dce7;font-size:10px;font-weight:700;letter-spacing:.11em}.panel-top b{color:#f6c66e}.map-art{position:relative;height:218px;margin:16px 0 14px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(circle at 28% 55%,rgba(100,205,215,.19) 0 2px,transparent 3px),linear-gradient(120deg,transparent 49%,rgba(113,194,211,.12) 50%,transparent 51%);overflow:hidden}.map-line{position:absolute;height:1px;background:#82d0d6;opacity:.7;transform-origin:left}.map-line.one{top:55px;left:35px;width:210px;transform:rotate(23deg)}.map-line.two{top:130px;left:58px;width:175px;transform:rotate(-34deg)}.map-line.three{top:75px;left:120px;width:120px;transform:rotate(78deg)}.map-node{position:absolute;width:12px;height:12px;border:3px solid #eaa02a;border-radius:50%;background:#0c5176;box-shadow:0 0 0 5px rgba(234,160,42,.15)}.n1{top:49px;left:28px}.n2{top:128px;left:118px}.n3{top:120px;right:41px}.n4{top:40px;right:62px}.panel-rule{height:1px;background:rgba(255,255,255,.16)}.panel-stat{display:grid;gap:5px;padding:17px 0}.panel-stat strong{color:#f8c66b;font-family:Georgia,serif;font-size:27px;font-weight:400}.panel-stat span{color:#d1e0e9;font-size:13px;line-height:1.5}.panel-link{color:#fff;font-size:12px;font-weight:700;text-decoration:none}.panel-link span{color:#f6c66e;margin-left:10px}.trust-band{background:#e9eef1;border-bottom:1px solid var(--line)}.trust-inner{display:flex;min-height:62px;align-items:center;gap:22px;color:#506271;font-size:12px}.trust-inner>span{color:#163e5e;font-size:10px;font-weight:700;letter-spacing:.1em}.trust-inner i{height:16px;width:1px;background:#b9c8d1}.capabilities{padding:88px 0 98px;background:#fff}.section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:44px}.eyebrow.dark{color:#587183}.section-heading h2,.journey h2{color:var(--navy);font-size:48px}.section-heading>p{max-width:375px;margin:0 0 4px;color:#60717d;font-size:15px;line-height:1.65}.capability-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:52px;border-top:1px solid var(--line)}.capability{position:relative;min-height:224px;padding:27px 35px 20px 0;border-right:1px solid var(--line)}.capability:not(:first-child){padding-left:30px}.capability:last-child{border:0}.capability>span{color:#e28f22;font-family:Georgia,serif;font-size:18px}.capability h3{margin:24px 0 10px;color:var(--navy);font-family:Georgia,serif;font-size:24px;font-weight:400}.capability p{max-width:290px;color:#5e6f7a;font-size:14px;line-height:1.65}.cap-line{position:absolute;bottom:0;left:0;width:45px;height:3px;background:#e99a27}.journey{padding:54px 0;background:#edf2f5}.journey-inner{display:grid;grid-template-columns:1.1fr 1.25fr auto;gap:40px;align-items:center}.journey h2{font-size:34px}.journey-steps{display:flex;align-items:center;gap:14px}.journey-steps div{display:grid;gap:7px;min-width:90px}.journey-steps b{display:grid;place-items:center;width:28px;height:28px;border:1px solid #93a8b7;border-radius:50%;color:var(--navy);font-family:Georgia,serif;font-weight:400}.journey-steps span{color:#3d5566;font-size:12px;line-height:1.35}.journey-steps i{width:22px;height:1px;background:#abbcc7}
+@media(max-width:850px){.hero-grid{grid-template-columns:1fr;gap:0}.hero-copy{padding-bottom:38px}.hero-panel{margin-bottom:56px}.journey-inner{grid-template-columns:1fr}.journey-steps{max-width:480px}}@media(max-width:700px){.site-container{width:min(100% - 28px,1180px)}.brand-row{min-height:72px}.ministry-mark{display:none}.brand small{max-width:250px}.nav-inner{overflow-x:auto;justify-content:flex-start}.nav-inner a{white-space:nowrap;padding:14px 12px}.nav-spacer,.nav-cta{display:none}.footer-inner{align-items:flex-start;justify-content:center;flex-direction:column;padding:16px 0;gap:6px}.hero h1{font-size:43px}.hero-copy{padding-top:52px}.trust-inner{padding:14px 0;flex-wrap:wrap;gap:10px 16px}.trust-inner>span{flex-basis:100%}.section-heading{display:block}.section-heading h2{font-size:40px}.section-heading>p{margin-top:20px}.capabilities{padding:62px 0}.capability-grid{grid-template-columns:1fr}.capability,.capability:not(:first-child){min-height:0;padding:24px 0;border-bottom:1px solid var(--line);border-right:0}.journey{padding:44px 0}.journey-inner{gap:28px}}
+
+/* ================================================================
+   DASHBOARD OVERVIEW — KPI Cards, Status Donut, Sector Bars, Map
+   ================================================================ */
+
+/* ---- KPI Summary Cards ---- */
+.dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+.dash-kpi-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 22px 24px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(8, 43, 76, 0.08);
+  box-shadow: 0 2px 12px rgba(8, 43, 76, 0.05);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.dash-kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(8, 43, 76, 0.1);
+}
+.dash-kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 14px 14px 0 0;
+}
+.dash-kpi-card[data-accent="blue"]::before   { background: linear-gradient(90deg, #1e6fa0, #3b9dd6); }
+.dash-kpi-card[data-accent="gold"]::before   { background: linear-gradient(90deg, #c98518, #f4c14e); }
+.dash-kpi-card[data-accent="teal"]::before   { background: linear-gradient(90deg, #0e7d6a, #3fc1a8); }
+.dash-kpi-card[data-accent="orange"]::before { background: linear-gradient(90deg, #c4651a, #ee9a3f); }
+
+.dash-kpi-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+.dash-kpi-card[data-accent="blue"]   .dash-kpi-icon { background: rgba(30, 111, 160, 0.12); color: #1e6fa0; }
+.dash-kpi-card[data-accent="gold"]   .dash-kpi-icon { background: rgba(201, 133, 24, 0.12); color: #c98518; }
+.dash-kpi-card[data-accent="teal"]   .dash-kpi-icon { background: rgba(14, 125, 106, 0.12); color: #0e7d6a; }
+.dash-kpi-card[data-accent="orange"] .dash-kpi-icon { background: rgba(196, 101, 26, 0.12); color: #c4651a; }
+
+.dash-kpi-value {
+  display: block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.dash-kpi-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a6873;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---- Overview Row (Donut + Sector + Map) ---- */
+.dash-overview-row {
+  display: grid;
+  grid-template-columns: 280px 1fr 1.1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+.dash-panel {
+  border-radius: 14px;
+  padding: 22px 24px;
+  background: #fff;
+  border: 1px solid rgba(8, 43, 76, 0.08);
+  box-shadow: 0 2px 12px rgba(8, 43, 76, 0.04);
+}
+.dash-panel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+  margin-bottom: 18px;
+}
+
+/* ---- Status Donut (CSS conic-gradient) ---- */
+.dash-donut-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dash-donut {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dash-donut-hole {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.dash-donut-hole strong {
+  font-family: Georgia, serif;
+  font-size: 28px;
+  color: var(--navy);
+  line-height: 1;
+}
+.dash-donut-hole span {
+  font-size: 10px;
+  color: #5a6873;
+  margin-top: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.dash-donut-legend {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dash-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #3d5566;
+}
+.dash-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ---- Sector Distribution Bars ---- */
+.dash-sector-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dash-sector-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.dash-sector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.dash-sector-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.dash-sector-meta {
+  font-size: 11px;
+  color: #5a6873;
+}
+.dash-sector-bar-bg {
+  height: 10px;
+  border-radius: 5px;
+  background: #e9eef1;
+  overflow: hidden;
+}
+.dash-sector-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #1e6fa0, #3b9dd6);
+  transition: width 0.6s ease;
+}
+
+/* ---- India Map SVG ---- */
+.dash-map-wrap {
+  position: relative;
+}
+
+/* ---- India Map Leaflet Tooltip ---- */
+.dash-map-leaflet-tooltip {
+  background: rgba(8, 43, 76, 0.92) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.dash-map-leaflet-tooltip::before {
+  border-top-color: rgba(8, 43, 76, 0.92) !important;
+}
+@media (max-width: 1024px) {
+  .dash-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dash-overview-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .dash-overview-row > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 640px) {
+  .dash-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .dash-overview-row {
+    grid-template-columns: 1fr;
+  }
+}

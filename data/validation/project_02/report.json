@@ -1,0 +1,108 @@
+{
+  "report_generated_at": "2026-09-04T09:03:42.787156+00:00",
+  "report_version": "phase-5-v1",
+  "project_id": "619054",
+  "project_name": "Development of Keshod Airport.",
+  "project_number": 2,
+  "agency": "Airport Authority of India [AAI]",
+  "state": "Gujarat",
+  "original_cost_crore": 363.1,
+  "revised_cost_crore": 363.1,
+  "cumulative_expenditure_crore": 108.64,
+  "as_of_date": "2026-07-01",
+  "overall_health": "WATCH",
+  "cost_utilisation": 29.920132194987605,
+  "schedule_utilisation": 66.66666666666667,
+  "physical_progress": 46.69,
+  "expected_progress": 66.66666666666667,
+  "progress_gap": -19.976666666666674,
+  "expenditure_progress_divergence": -16.769867805012392,
+  "recent_trend_label": "IMPROVING",
+  "monthly_progress_change": 5.189999999999998,
+  "progress_slope": 4.519999999999999,
+  "consecutive_stagnant_months": 0,
+  "ml_probability": 0.08783978703967472,
+  "ml_risk_level": "LOW",
+  "ml_model_version": "cost-overrun-lightgbm-2026-08-30T16:59:28",
+  "ml_feature_version": "ml-fe-v1-reconstructed",
+  "ml_leakage_check": "PASSED",
+  "revised_cost_interpretation": "No revised cost is currently recorded as of the selected observation date. The ML probability is a forward-looking risk estimate, not a confirmed outcome.",
+  "data_quality": {
+    "total_issues": 0,
+    "issues_by_severity": {},
+    "issues": []
+  },
+  "historical_trend": {
+    "observation_count": 7,
+    "first_observation": "2026-01-01",
+    "latest_observation": "2026-07-01",
+    "observations": [
+      {
+        "month": "2026-01-01",
+        "cumulative_expenditure_crore": null,
+        "physical_progress_percent": null,
+        "notes": "First appearance as a Newly Added Project in the January 2026 edition."
+      },
+      {
+        "month": "2026-02-01",
+        "cumulative_expenditure_crore": 35.84,
+        "physical_progress_percent": 21.0,
+        "notes": null
+      },
+      {
+        "month": "2026-03-01",
+        "cumulative_expenditure_crore": 87.88,
+        "physical_progress_percent": 28.0,
+        "notes": null
+      },
+      {
+        "month": "2026-04-01",
+        "cumulative_expenditure_crore": 87.88,
+        "physical_progress_percent": 33.13,
+        "notes": null
+      },
+      {
+        "month": "2026-05-01",
+        "cumulative_expenditure_crore": 87.88,
+        "physical_progress_percent": 38.18,
+        "notes": null
+      },
+      {
+        "month": "2026-06-01",
+        "cumulative_expenditure_crore": 102.3,
+        "physical_progress_percent": 41.5,
+        "notes": null
+      },
+      {
+        "month": "2026-07-01",
+        "cumulative_expenditure_crore": 108.64,
+        "physical_progress_percent": 46.69,
+        "notes": null
+      }
+    ],
+    "events": [
+      {
+        "month": "2026-01-01",
+        "type": "PROJECT_FIRST_OBSERVED",
+        "description": "Project first appears in Flash Report data (January 2026).",
+        "previous_value": null,
+        "new_value": "January 2026"
+      },
+      {
+        "month": "2026-02-01",
+        "type": "COST_REVISED",
+        "description": "Revised cost changed between consecutive Flash Report editions.",
+        "previous_value": null,
+        "new_value": "363.1"
+      },
+      {
+        "month": "2026-02-01",
+        "type": "RECORD_TYPE_CHANGED",
+        "description": "Project's record classification changed between editions.",
+        "previous_value": "Newly Added Projects",
+        "new_value": "All Ongoing Projects"
+      }
+    ]
+  },
+  "prediction_timestamp": "2026-09-04T09:03:42.787156+00:00"
+}

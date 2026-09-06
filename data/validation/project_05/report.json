@@ -1,0 +1,136 @@
+{
+  "report_generated_at": "2026-09-04T09:03:42.868676+00:00",
+  "report_version": "phase-5-v1",
+  "project_id": "617279",
+  "project_name": "Transmission System for evacuation of power from Mahan Energen Limited Generating Station in Madhya Pradesh [SPV Name - POWERGRID MEL Power Transmission Limited]",
+  "project_number": 5,
+  "agency": "Power Grid Corporation of India Limited [POWERGRID]",
+  "state": "Madhya Pradesh",
+  "original_cost_crore": 558.0,
+  "revised_cost_crore": 558.0,
+  "cumulative_expenditure_crore": 180.9,
+  "as_of_date": "2026-07-01",
+  "overall_health": "WATCH",
+  "cost_utilisation": 32.41935483870968,
+  "schedule_utilisation": 43.333333333333336,
+  "physical_progress": 18.47,
+  "expected_progress": 43.333333333333336,
+  "progress_gap": -24.863333333333337,
+  "expenditure_progress_divergence": 13.94935483870968,
+  "recent_trend_label": "IMPROVING",
+  "monthly_progress_change": 3.3599999999999994,
+  "progress_slope": 2.9066666666666663,
+  "consecutive_stagnant_months": 0,
+  "ml_probability": 0.008491672877041662,
+  "ml_risk_level": "LOW",
+  "ml_model_version": "cost-overrun-lightgbm-2026-08-30T16:59:28",
+  "ml_feature_version": "ml-fe-v1-reconstructed",
+  "ml_leakage_check": "PASSED",
+  "revised_cost_interpretation": "No revised cost is currently recorded as of the selected observation date. The ML probability is a forward-looking risk estimate, not a confirmed outcome.",
+  "data_quality": {
+    "total_issues": 0,
+    "issues_by_severity": {},
+    "issues": []
+  },
+  "historical_trend": {
+    "observation_count": 14,
+    "first_observation": "2025-06-01",
+    "latest_observation": "2026-07-01",
+    "observations": [
+      {
+        "month": "2025-06-01",
+        "cumulative_expenditure_crore": 0.0,
+        "physical_progress_percent": 0.0,
+        "notes": "Historical zero-progress baseline (user specified)"
+      },
+      {
+        "month": "2025-07-01",
+        "cumulative_expenditure_crore": 5.58,
+        "physical_progress_percent": 0.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-08-01",
+        "cumulative_expenditure_crore": 16.74,
+        "physical_progress_percent": 0.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-09-01",
+        "cumulative_expenditure_crore": 27.9,
+        "physical_progress_percent": 0.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-10-01",
+        "cumulative_expenditure_crore": 33.48,
+        "physical_progress_percent": 1.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-11-01",
+        "cumulative_expenditure_crore": 33.48,
+        "physical_progress_percent": 1.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2025-12-01",
+        "cumulative_expenditure_crore": 33.48,
+        "physical_progress_percent": 2.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-01-01",
+        "cumulative_expenditure_crore": 38.66,
+        "physical_progress_percent": 2.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-02-01",
+        "cumulative_expenditure_crore": 39.06,
+        "physical_progress_percent": 4.0,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-03-01",
+        "cumulative_expenditure_crore": 41.85,
+        "physical_progress_percent": 5.67,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-04-01",
+        "cumulative_expenditure_crore": 50.22,
+        "physical_progress_percent": 9.75,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-05-01",
+        "cumulative_expenditure_crore": 50.22,
+        "physical_progress_percent": 13.32,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-06-01",
+        "cumulative_expenditure_crore": 180.9,
+        "physical_progress_percent": 15.11,
+        "notes": "Supplied observation"
+      },
+      {
+        "month": "2026-07-01",
+        "cumulative_expenditure_crore": 180.9,
+        "physical_progress_percent": 18.47,
+        "notes": "Supplied observation"
+      }
+    ],
+    "events": [
+      {
+        "month": "2025-06-01",
+        "type": "PROJECT_FIRST_OBSERVED",
+        "description": "Project first appears in Flash Report data (2025-06).",
+        "previous_value": null,
+        "new_value": "2025-06"
+      }
+    ]
+  },
+  "prediction_timestamp": "2026-09-04T09:03:42.868676+00:00"
+}
