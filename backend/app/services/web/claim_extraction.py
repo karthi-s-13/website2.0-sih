@@ -93,18 +93,14 @@ def extract_claims(
         return fallback
 
     try:
-        from google import genai
+        from app.services.llm.groq_client import generate_text
 
-        client = genai.Client(api_key=api_key)
         prompt = (
             f"Project: {project_name}\nSearch topic: {topic}\n\nResults:\n{_format_results(results)}"
         )
-        response = client.models.generate_content(
-            model=model,
-            contents=prompt,
-            config={"system_instruction": SYSTEM_INSTRUCTION, "temperature": 0.1},
+        text = generate_text(
+            api_key=api_key, model=model, system_instruction=SYSTEM_INSTRUCTION, contents=prompt, temperature=0.1
         )
-        text = (response.text or "").strip()
         text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.MULTILINE).strip()
         parsed = json.loads(text)
     except Exception:  # noqa: BLE001 - any failure must degrade gracefully, never raise

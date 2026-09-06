@@ -114,8 +114,8 @@ def get_project_history(
 
     settings = get_settings()
     summary: SummaryResult = summarize_current_state(
-        api_key=settings.gemini_api_key,
-        model=settings.gemini_model,
+        api_key=settings.groq_api_key,
+        model=settings.groq_model,
         project_name=project.project_name,
         question=question,
         timeline=timeline,

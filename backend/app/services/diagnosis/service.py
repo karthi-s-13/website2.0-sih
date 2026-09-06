@@ -29,9 +29,10 @@ from app.services.anomaly.service import get_project_anomalies
 from app.services.diagnosis.drivers import Driver, identify_drivers
 from app.services.diagnosis.risk_fusion import fuse_risk
 from app.services.evidence.fusion import FusedEvidence, fuse_evidence
+from app.services.health.formulas import HealthVector
 from app.services.health.service import get_project_health
-from app.services.prediction.service import predict_cost_overrun
-from app.services.rag.service import search_review_evidence
+from app.services.prediction.service import PredictionResult, predict_cost_overrun
+from app.services.rag.service import DEFAULT_QUESTION, search_review_evidence
 from app.services.web.service import get_web_intelligence
 
 
@@ -46,6 +47,13 @@ class DiagnosisResult:
     fusion_version: str
     drivers: list[Driver]
     evidence: list[FusedEvidence]
+    # Already computed internally (needed for evidence fusion/drivers) -
+    # exposed here so callers (Coordinator/Reporting) never need to
+    # re-run get_project_health just to populate the report's health section.
+    health: HealthVector | None = None
+    # Already computed internally (needed for evidence fusion/drivers) -
+    # exposed for the same reason as `health` above.
+    prediction: PredictionResult | None = None
 
 
 def diagnose_project(
@@ -53,6 +61,7 @@ def diagnose_project(
     project_id: str,
     as_of_date: date | None = None,
     include_web: bool = True,
+    question: str | None = None,
 ) -> DiagnosisResult:
     project = session.get(Project, project_id)
     if project is None:
@@ -82,11 +91,13 @@ def diagnose_project(
     events = [e for e in get_project_events(session, project_id) if e.event_month <= as_of]
     dq_issues = get_data_quality_issues_for_project(session, project_id)
 
-    review = search_review_evidence(session, project_id)
+    review = search_review_evidence(session, project_id, question=question or DEFAULT_QUESTION)
     web = get_web_intelligence(session, project_id, as_of_date=as_of, for_diagnosis=True) if include_web else None
 
     evidence = fuse_evidence(
         project_id=project_id,
+        project_name=project.project_name,
+        agency_code=project.agency_code,
         as_of=as_of,
         health=health,
         anomaly_result=anomaly_result,
@@ -110,4 +121,6 @@ def diagnose_project(
         fusion_version=fusion.fusion_version,
         drivers=drivers,
         evidence=evidence,
+        health=health,
+        prediction=prediction,
     )

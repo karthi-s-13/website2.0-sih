@@ -83,7 +83,7 @@ def run_anomaly(session: Session, state: AnalysisState) -> None:
 
 def run_review(session: Session, state: AnalysisState) -> None:
     with _timed_stage(state, "REVIEW"):
-        state.review = search_review_evidence(session, state.project_id)
+        state.review = search_review_evidence(session, state.project_id, question=state.query)
 
 
 def run_web(session: Session, state: AnalysisState) -> None:
@@ -93,10 +93,26 @@ def run_web(session: Session, state: AnalysisState) -> None:
 
 def run_diagnosis(session: Session, state: AnalysisState) -> None:
     with _timed_stage(state, "DIAGNOSIS"):
-        state.diagnosis = diagnose_project(session, state.project_id, as_of_date=state.as_of_date)
+        state.diagnosis = diagnose_project(
+            session, state.project_id, as_of_date=state.as_of_date, question=state.query
+        )
+        # DIAGNOSIS always computes health internally for the same as_of_date
+        # (needed for evidence fusion/drivers) - reuse it rather than leaving
+        # the report's health section empty just because a standalone HEALTH
+        # stage wasn't in this intent's plan.
+        if state.health is None:
+            state.health = state.diagnosis.health
+        if state.prediction is None:
+            state.prediction = state.diagnosis.prediction
 
 
 def run_intervention(session: Session, state: AnalysisState) -> None:
     with _timed_stage(state, "INTERVENTION"):
-        state.intervention = recommend_interventions(session, state.project_id, as_of_date=state.as_of_date)
+        state.intervention = recommend_interventions(
+            session, state.project_id, as_of_date=state.as_of_date, question=state.query
+        )
         state.diagnosis = state.intervention.diagnosis
+        if state.health is None:
+            state.health = state.diagnosis.health
+        if state.prediction is None:
+            state.prediction = state.diagnosis.prediction

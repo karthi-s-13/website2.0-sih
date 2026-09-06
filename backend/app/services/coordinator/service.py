@@ -111,6 +111,10 @@ def _execute_plan(session: Session, state: AnalysisState, tracker: BudgetTracker
             state.diagnosis = heavy_result.diagnosis
         else:
             state.diagnosis = heavy_result.diagnosis
+        if state.health is None:
+            state.health = heavy_result.health
+        if state.prediction is None:
+            state.prediction = heavy_result.prediction
         state.stage_results.extend(heavy_result.stage_results)
         state.errors.extend(heavy_result.errors)
         state.warnings.extend(heavy_result.warnings)
@@ -128,14 +132,15 @@ def _execute_plan(session: Session, state: AnalysisState, tracker: BudgetTracker
 def _finalize_report(session: Session, state: AnalysisState) -> None:
     settings = get_settings()
     narrative = summarize_report(
-        api_key=settings.gemini_api_key,
-        model=settings.gemini_model,
+        api_key=settings.groq_api_key,
+        model=settings.groq_model,
         project_name=state.project_name or "",
         health=state.health,
         prediction=state.prediction,
         history=state.history,
         diagnosis=state.diagnosis,
         intervention=state.intervention,
+        question=state.query,
     )
     state.report = build_report(
         trace_id=state.trace_id,
@@ -167,7 +172,7 @@ def run_analysis(
     tracker = BudgetTracker(budget=budget or Budget())
     settings = get_settings()
 
-    intent_result = classify_intent(query, api_key=settings.gemini_api_key, model=settings.gemini_model)
+    intent_result = classify_intent(query, api_key=settings.groq_api_key, model=settings.groq_model)
     state.intent = intent_result.intent
     state.intent_source = intent_result.source
 

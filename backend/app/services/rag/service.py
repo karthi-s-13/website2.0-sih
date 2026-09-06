@@ -103,8 +103,8 @@ def search_review_evidence(
     ranked = _recency_boost(ranked)[:top_k]
 
     answer: AnswerResult = compose_answer(
-        api_key=settings.gemini_api_key,
-        model=settings.gemini_model,
+        api_key=settings.groq_api_key,
+        model=settings.groq_model,
         question=question,
         project_name=project.project_name,
         ranked_chunks=ranked,

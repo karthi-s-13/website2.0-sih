@@ -65,7 +65,9 @@ def _mocked():
     # No real LLM calls anywhere (intent classification, claim extraction,
     # etc. all fall back to their deterministic paths) - keeps the suite
     # hermetic and fast instead of waiting out a real free-tier rate limit.
-    stack.enter_context(patch("google.genai.Client", side_effect=RuntimeError("test: no real LLM calls")))
+    stack.enter_context(
+        patch("app.services.llm.groq_client.generate_text", side_effect=RuntimeError("test: no real LLM calls"))
+    )
     stack.enter_context(patch("app.services.diagnosis.service.search_review_evidence", return_value=NOT_FOUND_REVIEW))
     stack.enter_context(patch("app.services.diagnosis.service.get_web_intelligence", return_value=NOT_TRIGGERED_WEB))
     stack.enter_context(patch("app.services.coordinator.stages.search_review_evidence", return_value=NOT_FOUND_REVIEW))

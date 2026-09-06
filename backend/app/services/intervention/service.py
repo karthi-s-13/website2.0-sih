@@ -96,8 +96,11 @@ def recommend_interventions(
     project_id: str,
     as_of_date: date | None = None,
     include_web: bool = True,
+    question: str | None = None,
 ) -> InterventionResult:
-    diagnosis = diagnose_project(session, project_id, as_of_date=as_of_date, include_web=include_web)
+    diagnosis = diagnose_project(
+        session, project_id, as_of_date=as_of_date, include_web=include_web, question=question
+    )
 
     monitoring_level = OVERALL_RISK_TO_MONITORING_LEVEL.get(diagnosis.overall_risk, "NORMAL")
 

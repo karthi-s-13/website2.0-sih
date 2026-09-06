@@ -107,15 +107,11 @@ def classify_intent(query: str, *, api_key: str | None, model: str) -> IntentRes
         return fallback
 
     try:
-        from google import genai
+        from app.services.llm.groq_client import generate_text
 
-        client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(
-            model=model,
-            contents=query,
-            config={"system_instruction": SYSTEM_INSTRUCTION, "temperature": 0.0},
-        )
-        text = (response.text or "").strip().upper()
+        text = generate_text(
+            api_key=api_key, model=model, system_instruction=SYSTEM_INSTRUCTION, contents=query, temperature=0.0
+        ).upper()
     except Exception:  # noqa: BLE001 - must degrade gracefully, never raise
         return fallback
 

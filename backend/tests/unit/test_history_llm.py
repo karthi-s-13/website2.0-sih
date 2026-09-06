@@ -1,5 +1,5 @@
 from datetime import date
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from app.services.history.llm import (
     deterministic_fallback_summary,
@@ -74,7 +74,7 @@ def test_summarize_current_state_no_api_key_uses_fallback() -> None:
 
 
 def test_summarize_current_state_llm_failure_falls_back() -> None:
-    with patch("google.genai.Client", side_effect=RuntimeError("network down")):
+    with patch("app.services.llm.groq_client.generate_text", side_effect=RuntimeError("network down")):
         result = summarize_current_state(
             api_key="fake-key",
             model="gemini-3.6-flash",
@@ -89,12 +89,10 @@ def test_summarize_current_state_llm_failure_falls_back() -> None:
 
 
 def test_summarize_current_state_success_uses_llm_text() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "The project has made steady progress since July 2025."
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch(
+        "app.services.llm.groq_client.generate_text",
+        return_value="The project has made steady progress since July 2025.",
+    ):
         result = summarize_current_state(
             api_key="fake-key",
             model="gemini-3.6-flash",
@@ -111,12 +109,10 @@ def test_summarize_current_state_success_uses_llm_text() -> None:
 
 
 def test_summarize_current_state_guardrail_blocks_definitive_claim() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "This project will definitely overrun its budget."
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch(
+        "app.services.llm.groq_client.generate_text",
+        return_value="This project will definitely overrun its budget.",
+    ):
         result = summarize_current_state(
             api_key="fake-key",
             model="gemini-3.6-flash",
@@ -131,12 +127,10 @@ def test_summarize_current_state_guardrail_blocks_definitive_claim() -> None:
 
 
 def test_summarize_current_state_guardrail_blocks_definitive_safety_claim() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "This project will definitely not overrun."
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch(
+        "app.services.llm.groq_client.generate_text",
+        return_value="This project will definitely not overrun.",
+    ):
         result = summarize_current_state(
             api_key="fake-key",
             model="gemini-3.6-flash",

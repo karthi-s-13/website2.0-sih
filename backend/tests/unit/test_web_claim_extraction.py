@@ -1,5 +1,5 @@
 import json
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from app.services.web.claim_extraction import extract_claims
 from app.services.web.search_client import SearchResult
@@ -49,7 +49,7 @@ def test_extract_claims_empty_results() -> None:
 
 
 def test_extract_claims_llm_failure_falls_back() -> None:
-    with patch("google.genai.Client", side_effect=RuntimeError("network down")):
+    with patch("app.services.llm.groq_client.generate_text", side_effect=RuntimeError("network down")):
         claims = extract_claims(
             api_key="fake-key",
             model="gemini-3.6-flash",
@@ -63,17 +63,14 @@ def test_extract_claims_llm_failure_falls_back() -> None:
 
 
 def test_extract_claims_success_uses_llm_output() -> None:
-    fake_response = MagicMock()
-    fake_response.text = json.dumps(
+    llm_output = json.dumps(
         [
             {"finding": "Land acquisition dispute delayed the bridge project.", "project_relevance": 0.95},
             {"finding": "No specific project-relevant claim found in this source.", "project_relevance": 0.0},
         ]
     )
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
 
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch("app.services.llm.groq_client.generate_text", return_value=llm_output):
         claims = extract_claims(
             api_key="fake-key",
             model="gemini-3.6-flash",
@@ -90,12 +87,7 @@ def test_extract_claims_success_uses_llm_output() -> None:
 
 
 def test_extract_claims_malformed_llm_output_falls_back() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "not valid json"
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch("app.services.llm.groq_client.generate_text", return_value="not valid json"):
         claims = extract_claims(
             api_key="fake-key",
             model="gemini-3.6-flash",
@@ -109,12 +101,9 @@ def test_extract_claims_malformed_llm_output_falls_back() -> None:
 
 
 def test_extract_claims_wrong_length_llm_output_falls_back() -> None:
-    fake_response = MagicMock()
-    fake_response.text = json.dumps([{"finding": "only one", "project_relevance": 0.5}])
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
+    llm_output = json.dumps([{"finding": "only one", "project_relevance": 0.5}])
 
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch("app.services.llm.groq_client.generate_text", return_value=llm_output):
         claims = extract_claims(
             api_key="fake-key",
             model="gemini-3.6-flash",

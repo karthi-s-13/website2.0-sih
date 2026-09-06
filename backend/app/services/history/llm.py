@@ -140,18 +140,14 @@ def summarize_current_state(
         return SummaryResult(text=fallback_text, source="DETERMINISTIC_FALLBACK", model=None)
 
     try:
-        from google import genai
+        from app.services.llm.groq_client import generate_text
 
-        client = genai.Client(api_key=api_key)
         evidence = _format_evidence(
             project_name, question, timeline, major_changes, risk_signals, latest_health
         )
-        response = client.models.generate_content(
-            model=model,
-            contents=evidence,
-            config={"system_instruction": SYSTEM_INSTRUCTION, "temperature": 0.2},
+        text = generate_text(
+            api_key=api_key, model=model, system_instruction=SYSTEM_INSTRUCTION, contents=evidence, temperature=0.2
         )
-        text = (response.text or "").strip()
     except Exception:  # noqa: BLE001 - any LLM failure must degrade gracefully, never raise
         return SummaryResult(text=fallback_text, source="DETERMINISTIC_FALLBACK", model=None)
 

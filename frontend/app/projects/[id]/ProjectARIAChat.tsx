@@ -64,6 +64,7 @@ export default function ProjectARIAChat({ project, healthData, onNavigateTab }: 
   const [selectedAgent, setSelectedAgent] = useState<"all" | "ml" | "cag" | "web" | "interventions">("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [expandedReasoning, setExpandedReasoning] = useState<Record<string, boolean>>({});
+  const [expandedSources, setExpandedSources] = useState<Record<string, boolean>>({});
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -84,6 +85,10 @@ export default function ProjectARIAChat({ project, healthData, onNavigateTab }: 
 
   const toggleReasoning = (id: string) => {
     setExpandedReasoning((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const toggleSources = (id: string) => {
+    setExpandedSources((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const copyToClipboard = (id: string, text: string) => {
@@ -497,27 +502,37 @@ export default function ProjectARIAChat({ project, healthData, onNavigateTab }: 
                     {renderFormattedContent(msg.content)}
                   </div>
 
-                  {/* Grounded Sources & Citations */}
+                  {/* Grounded Sources & Citations (collapsed by default) */}
                   {msg.sources && msg.sources.length > 0 && (
                     <div className="pt-3 border-t border-slate-100">
-                      <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                        </svg>
-                        Data Sources & Evidence Grounding
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {msg.sources.map((src, srcIdx) => (
-                          <div
-                            key={srcIdx}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs border border-slate-200/80"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                            <span className="font-medium">{src.title}</span>
-                            <span className="text-slate-400 text-[10px]">({src.category})</span>
-                          </div>
-                        ))}
-                      </div>
+                      <button
+                        onClick={() => toggleSources(msg.id)}
+                        className="w-full text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between gap-1.5 hover:text-slate-600 transition-colors"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                          </svg>
+                          Data Sources & Evidence Grounding ({msg.sources.length})
+                        </span>
+                        <span className="text-slate-400 text-[11px] normal-case font-medium">
+                          {expandedSources[msg.id] ? "Hide ▲" : "Show ▼"}
+                        </span>
+                      </button>
+                      {expandedSources[msg.id] && (
+                        <div className="flex flex-wrap gap-2">
+                          {msg.sources.map((src, srcIdx) => (
+                            <div
+                              key={srcIdx}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs border border-slate-200/80"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                              <span className="font-medium">{src.title}</span>
+                              <span className="text-slate-400 text-[10px]">({src.category})</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 

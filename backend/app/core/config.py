@@ -55,10 +55,19 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     log_json: bool = True
 
-    # LLM (Gemini) - Phase 6 Project History Agent narrative synthesis only.
-    # Never used for facts, trends, or predictions - those stay deterministic.
+    # LLM (Gemini) - embeddings only (rag/embeddings.py). Groq has no
+    # embeddings API, so this stays Gemini regardless of which provider
+    # serves text generation below. Never used for facts, trends, or
+    # predictions - those stay deterministic.
     gemini_api_key: str | None = None
     gemini_model: str = "gemini-3.6-flash"
+
+    # LLM (Groq) - text generation for every LLM-touched agent (Project
+    # History narrative, RAG answer composition, Web claim extraction,
+    # Coordinator intent classification, Reporting executive summary).
+    # Never used for facts, trends, or predictions - those stay deterministic.
+    groq_api_key: str | None = None
+    groq_model: str = "openai/gpt-oss-20b"
 
     # Web search (Tavily) - Phase 8 Web Intelligence Agent. Leave blank to
     # disable - the agent then reports web evidence as unavailable rather

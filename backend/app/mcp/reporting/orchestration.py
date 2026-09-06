@@ -50,8 +50,8 @@ def build_full_report(session: Session, project_id: str, as_of_date: date | None
 
     settings = get_settings()
     narrative = summarize_report(
-        api_key=settings.gemini_api_key,
-        model=settings.gemini_model,
+        api_key=settings.groq_api_key,
+        model=settings.groq_model,
         project_name=state.project_name,
         health=state.health,
         prediction=state.prediction,

@@ -147,8 +147,8 @@ def generate_executive_summary(
 
         settings = get_settings()
         narrative = summarize_report(
-            api_key=settings.gemini_api_key,
-            model=settings.gemini_model,
+            api_key=settings.groq_api_key,
+            model=settings.groq_model,
             project_name=project.project_name,
             health=health,
             prediction=prediction,

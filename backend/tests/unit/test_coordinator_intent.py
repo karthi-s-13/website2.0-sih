@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from app.services.coordinator.intent import (
     ANOMALY_ANALYSIS,
@@ -68,19 +68,14 @@ def test_keyword_fallback_default_for_unclassifiable_query() -> None:
 
 
 def test_llm_failure_falls_back() -> None:
-    with patch("google.genai.Client", side_effect=RuntimeError("network down")):
+    with patch("app.services.llm.groq_client.generate_text", side_effect=RuntimeError("network down")):
         result = classify_intent("What is the cost risk?", api_key="fake-key", model="gemini-3.6-flash")
     assert result.source == "KEYWORD_FALLBACK"
     assert result.intent == COST_RISK
 
 
 def test_llm_success_returns_valid_intent() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "COMPLETE_PROJECT_ANALYSIS"
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch("app.services.llm.groq_client.generate_text", return_value="COMPLETE_PROJECT_ANALYSIS"):
         result = classify_intent(
             "Why is Project X at high risk and what should we do?", api_key="fake-key", model="gemini-3.6-flash"
         )
@@ -89,12 +84,7 @@ def test_llm_success_returns_valid_intent() -> None:
 
 
 def test_llm_invalid_output_falls_back() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "NOT_A_REAL_INTENT"
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch("app.services.llm.groq_client.generate_text", return_value="NOT_A_REAL_INTENT"):
         result = classify_intent("What is the cost risk?", api_key="fake-key", model="gemini-3.6-flash")
     assert result.source == "KEYWORD_FALLBACK"
     assert result.intent == COST_RISK

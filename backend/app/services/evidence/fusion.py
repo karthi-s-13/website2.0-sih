@@ -26,6 +26,7 @@ evidence reuses its real, already-persisted `evidence_id` from Phase 8's
 from __future__ import annotations
 
 import hashlib
+import re
 from dataclasses import dataclass
 from datetime import date
 from typing import Any
@@ -44,6 +45,31 @@ OFFICIAL_EXTERNAL_SOURCE = "OFFICIAL_EXTERNAL_SOURCE"
 SECONDARY_SOURCE = "SECONDARY_SOURCE"
 
 OFFICIAL_TRUST_TIERS = {"TIER_1", "TIER_2"}
+
+# The indexed "review reports" are national sector-aggregate bulletins that
+# rarely name an individual project (see app/services/rag/answer.py) - these
+# generic words recur in almost every project name and in that boilerplate,
+# so they can't distinguish "this citation is actually about this project"
+# from "this citation is generic infrastructure-sector text".
+_GENERIC_PROJECT_NAME_TERMS = {
+    "project", "projects", "system", "systems", "strengthening", "integration",
+    "generation", "power", "grid", "corporation", "corp", "india", "limited",
+    "spv", "name", "transmission", "augmentation", "development", "construction",
+    "national", "scheme", "phase", "works", "road", "roads", "railway",
+    "railways", "renewable", "energy", "infrastructure", "sector", "ministry",
+    "district", "state",
+}
+
+
+def _distinctive_project_terms(project_name: str, agency_code: str | None) -> list[str]:
+    """Terms specific enough that their presence in a review-report excerpt
+    means the excerpt is actually about this project, not just generic
+    sector boilerplate that happens to share common infrastructure vocabulary."""
+    words = re.findall(r"[A-Za-z]{5,}", project_name)
+    terms = [w.lower() for w in words if w.lower() not in _GENERIC_PROJECT_NAME_TERMS]
+    if agency_code:
+        terms.append(agency_code.lower())
+    return terms
 
 
 @dataclass(frozen=True)
@@ -209,19 +235,29 @@ def _model_evidence(project_id: str, prediction: Any, as_of: date) -> list[Fused
     ]
 
 
-def _review_evidence(project_id: str, review: EvidenceResult | None) -> list[FusedEvidence]:
+def _review_evidence(
+    project_id: str, review: EvidenceResult | None, distinctive_terms: list[str]
+) -> list[FusedEvidence]:
     if review is None or not review.evidence_found:
         return []
-    return [
-        FusedEvidence(
-            evidence_id=_stable_id("rev", project_id, c.document_name, str(c.page)),
-            category=REVIEW_REPORT,
-            description=c.excerpt[:300],
-            confidence=min(max(c.score, 0.0), 1.0),
-            source_label=f"{c.document_name} p.{c.page}",
+    items = []
+    for c in review.citations:
+        # Never present a generic national-sector bulletin excerpt as if it
+        # were evidence about this specific project (SRS FR-020's "no false
+        # connection" rule) - only excerpts that actually name the project or
+        # its agency qualify.
+        if distinctive_terms and not any(term in c.excerpt.lower() for term in distinctive_terms):
+            continue
+        items.append(
+            FusedEvidence(
+                evidence_id=_stable_id("rev", project_id, c.document_name, str(c.page)),
+                category=REVIEW_REPORT,
+                description=c.excerpt[:300],
+                confidence=min(max(c.score, 0.0), 1.0),
+                source_label=f"{c.document_name} p.{c.page}",
+            )
         )
-        for c in review.citations
-    ]
+    return items
 
 
 def _web_evidence(web: WebIntelligenceResult | None) -> list[FusedEvidence]:
@@ -247,6 +283,8 @@ def _web_evidence(web: WebIntelligenceResult | None) -> list[FusedEvidence]:
 def fuse_evidence(
     *,
     project_id: str,
+    project_name: str = "",
+    agency_code: str | None = None,
     as_of: date,
     health: HealthVector,
     anomaly_result: AnomalyResult,
@@ -256,6 +294,7 @@ def fuse_evidence(
     review: EvidenceResult | None,
     web: WebIntelligenceResult | None,
 ) -> list[FusedEvidence]:
+    distinctive_terms = _distinctive_project_terms(project_name, agency_code)
     return [
         *_structured_data_evidence(project_id, events, as_of),
         *_health_evidence(project_id, health),
@@ -263,6 +302,6 @@ def fuse_evidence(
         *_anomaly_evidence(project_id, anomaly_result),
         *_dq_evidence(project_id, dq_issues),
         *_model_evidence(project_id, prediction, as_of),
-        *_review_evidence(project_id, review),
+        *_review_evidence(project_id, review, distinctive_terms),
         *_web_evidence(web),
     ]

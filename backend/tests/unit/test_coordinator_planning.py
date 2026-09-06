@@ -30,8 +30,10 @@ def test_cost_risk_matches_simple_query_example() -> None:
     assert plan_for_intent(COST_RISK) == [PROJECT, PREDICTION]
 
 
-def test_time_risk_reuses_prediction_call() -> None:
-    assert plan_for_intent(TIME_RISK) == [PROJECT, PREDICTION]
+def test_time_risk_includes_health_and_prediction() -> None:
+    # No time-overrun ML model exists - HEALTH's progress-vs-schedule gap is
+    # the only real signal available to answer a schedule question.
+    assert plan_for_intent(TIME_RISK) == [PROJECT, HEALTH, PREDICTION]
 
 
 def test_project_health_matches_health_query_example() -> None:

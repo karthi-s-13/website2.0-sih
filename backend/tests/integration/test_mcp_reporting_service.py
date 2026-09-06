@@ -51,7 +51,7 @@ def mcp_session(test_sessionmaker):
     # than making real Gemini calls in every test.
     with (
         patch("app.mcp._shared.SessionLocal", test_sessionmaker),
-        patch("google.genai.Client", side_effect=RuntimeError("test: no real LLM calls")),
+        patch("app.services.llm.groq_client.generate_text", side_effect=RuntimeError("test: no real LLM calls")),
         patch("app.services.diagnosis.service.search_review_evidence", return_value=NOT_FOUND_REVIEW),
         patch("app.services.diagnosis.service.get_web_intelligence", return_value=NOT_TRIGGERED_WEB),
         patch("app.services.coordinator.stages.search_review_evidence", return_value=NOT_FOUND_REVIEW),

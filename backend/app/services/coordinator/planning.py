@@ -50,7 +50,12 @@ FULL_PLAN = [PROJECT, HISTORY, INTERVENTION_CALL]
 #                                                 Diagnosis, Intervention, Reporting
 INTENT_PLAN: dict[str, list[str]] = {
     COST_RISK: [PROJECT, PREDICTION],
-    TIME_RISK: [PROJECT, PREDICTION],
+    # No time-overrun ML model is ever deployed (Phase 3 built cost-overrun
+    # only - see reporting/builder.py's _time_overrun_risk) - HEALTH's
+    # physical-progress-vs-expected-schedule gap is the only signal this
+    # system actually has to answer a schedule/timeline question, so it must
+    # be in this plan alongside PREDICTION, not COST_RISK's plan verbatim.
+    TIME_RISK: [PROJECT, HEALTH, PREDICTION],
     PROJECT_HEALTH: [PROJECT, HEALTH],
     PROJECT_LOOKUP: [PROJECT],
     PROJECT_HISTORY: [PROJECT, HISTORY],

@@ -109,16 +109,12 @@ def compose_answer(
         return AnswerResult(text=fallback_text, source="DETERMINISTIC_FALLBACK", model=None, citations=citations)
 
     try:
-        from google import genai
+        from app.services.llm.groq_client import generate_text
 
-        client = genai.Client(api_key=api_key)
         context = _format_context(question, project_name, ranked_chunks)
-        response = client.models.generate_content(
-            model=model,
-            contents=context,
-            config={"system_instruction": SYSTEM_INSTRUCTION, "temperature": 0.1},
+        text = generate_text(
+            api_key=api_key, model=model, system_instruction=SYSTEM_INSTRUCTION, contents=context, temperature=0.1
         )
-        text = (response.text or "").strip()
     except Exception:  # noqa: BLE001 - must degrade gracefully, never raise
         return AnswerResult(text=fallback_text, source="DETERMINISTIC_FALLBACK", model=None, citations=citations)
 

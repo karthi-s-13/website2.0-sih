@@ -1,6 +1,6 @@
 from datetime import date
 from types import SimpleNamespace
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from app.services.health.formulas import HealthVector, MilestoneHealth, RecentTrend
 from app.services.reporting.narrative import summarize_report
@@ -36,7 +36,7 @@ def test_fallback_with_nothing_computed() -> None:
 
 
 def test_llm_failure_falls_back() -> None:
-    with patch("google.genai.Client", side_effect=RuntimeError("network down")):
+    with patch("app.services.llm.groq_client.generate_text", side_effect=RuntimeError("network down")):
         result = summarize_report(
             api_key="fake-key", model="gemini-3.6-flash", project_name="Test Project", health=HEALTH, prediction=PREDICTION,
         )
@@ -44,12 +44,10 @@ def test_llm_failure_falls_back() -> None:
 
 
 def test_llm_success_uses_llm_text() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "The project is in critical health with high cost-overrun risk."
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch(
+        "app.services.llm.groq_client.generate_text",
+        return_value="The project is in critical health with high cost-overrun risk.",
+    ):
         result = summarize_report(
             api_key="fake-key", model="gemini-3.6-flash", project_name="Test Project", health=HEALTH, prediction=PREDICTION,
         )
@@ -58,12 +56,10 @@ def test_llm_success_uses_llm_text() -> None:
 
 
 def test_guardrail_blocks_definitive_claim() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "This project will definitely overrun its budget."
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch(
+        "app.services.llm.groq_client.generate_text",
+        return_value="This project will definitely overrun its budget.",
+    ):
         result = summarize_report(
             api_key="fake-key", model="gemini-3.6-flash", project_name="Test Project", health=HEALTH, prediction=PREDICTION,
         )
@@ -71,12 +67,10 @@ def test_guardrail_blocks_definitive_claim() -> None:
 
 
 def test_guardrail_blocks_performed_claim() -> None:
-    fake_response = MagicMock()
-    fake_response.text = "The recommended action has been performed."
-    fake_client = MagicMock()
-    fake_client.models.generate_content.return_value = fake_response
-
-    with patch("google.genai.Client", return_value=fake_client):
+    with patch(
+        "app.services.llm.groq_client.generate_text",
+        return_value="The recommended action has been performed.",
+    ):
         result = summarize_report(
             api_key="fake-key", model="gemini-3.6-flash", project_name="Test Project", health=HEALTH, prediction=PREDICTION,
         )
